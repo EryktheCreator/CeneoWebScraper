@@ -15,7 +15,7 @@ class Opinion:
     "useful" : ["span[id^='votes-yes']"],
     "useless" : ["span[id^='votes-no']"]
 }
-    def __init__(self, opinion_id = None, author = None, recomendation = None, stars = None, content = None, purchased = None, submit_date = None,
+    def __init__(self, opinion_id = None, author = None, recomendation = None, stars = None, content = None, purchased = None, submit_date = None, purchase_date = None,
     pros = None, cons = None, useful = None, useless = None):
         self.opinion_id = opinion_id
         self.author = author
@@ -24,6 +24,7 @@ class Opinion:
         self.content = content
         self.purchased = purchased
         self.submit_date = submit_date
+        self.purchase_date = purchase_date
         self.pros = pros
         self.cons = cons
         self.useful = useful
@@ -44,7 +45,7 @@ class Opinion:
         return self
 
     def __str__(self):
-        return f"opinion_id: {self.opinion_id}" + "\n".join(f"{key}: {str(getattr(self, key))}" for key in self.selectors.keys())
+        return f"opinion_id: {self.opinion_id}<br>" + "<br>".join(f"{key}: {str(getattr(self, key))}" for key in self.selectors.keys())
 
     def __repr__(self):
         return f"Opinion(opinion_id= {self.opinion_id}" + ",".join(f"{key}={str(getattr(self, key))}" for key in self.selectors.keys()) + ")"

@@ -1,26 +1,35 @@
 from app import app
 from app.models.product import Product
+from flask import render_template, redirect, url_for
+from os import listdir
 
 @app.route('/')
 @app.route('/index')
 def index():
-    return "Hello, World!"
+    return render_template('index.html.jinja')
 
 @app.route("/extract/<product_id>")
 def extract(product_id):
     product = Product(product_id)
     product.extract_product()
     product.save_to_json()
-    return str(product)
+    return redirect(url_for("opinions", product_id=product_id))
 
 @app.route("/products")
 def products():
-    pass
+    products = [product.split('.')[0] for product in listdir("app/products")]
+    return render_template("products.html.jinja", products=products)
 
 @app.route("/opinions/<product_id>")
-def product(product_id):
-    pass
+def opinions(product_id):
+    product = Product(product_id)
+    product.read_from_json()
+    return render_template("opinions.html.jinja", product=str(product))
 
 @app.route("/charts/<product_id>")
 def charts():
+    pass
+
+@app.route("/about")
+def about():
     pass

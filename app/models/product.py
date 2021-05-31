@@ -25,7 +25,7 @@ class Product:
             print(next_page)
 
     def __str__(self):
-        return f"product_id: {self.product_id}\nproduct_name: {self.product_name}\nopinions:\n" + "\n\n".join(str(opinion) for opinion in self.opinions)
+        return f"product_id: {self.product_id}<br>product_name: {self.product_name}<br>opinions:<br>" + "<br>".join(str(opinion) for opinion in self.opinions)
 
     def __repr__(self):
         return f"Product(product_id={self.product_id}, product_name={self.product_name}, opinions=[" + ", ".join(opinion.__repr__() for opinion in self.opinions) + "])"
@@ -36,6 +36,15 @@ class Product:
             "product_name": self.product_name,
             "opinions": [opinion.to_dict() for opinion in self.opinions]
         }
+
     def save_to_json(self):
         with open(f"app/products/{self.product_id}.json", "w", encoding="UTF-8") as fp:
             json.dump(self.to_dict(), fp, indent=4, ensure_ascii=False)
+
+    def read_from_json(self):
+        with open(f"app/products/{self.product_id}.json", "r", encoding="UTF-8") as fp:
+            prod = json.load(fp)
+        self.product_name = prod['product_name']
+        opinions = prod['opinions']
+        for opinion in opinions:
+            self.opinions.append(Opinion(**opinion))
