@@ -1,23 +1,26 @@
 from app import app
 from app.models.product import Product
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, request
 from os import listdir
 
-@app.route('/')
-@app.route('/index')
+@app.route("/")
+@app.route("/index")
 def index():
-    return render_template('index.html.jinja')
+    return render_template("index.html.jinja")
 
-@app.route("/extract/<product_id>")
-def extract(product_id):
-    product = Product(product_id)
-    product.extract_product()
-    product.save_to_json()
-    return redirect(url_for("opinions", product_id=product_id))
+@app.route("/extract/", methods=["GET","POST"])
+def extract():
+    if request.method == "POST":
+        product_id = request.form.get("product_id")
+        product = Product(product_id)
+        product.extract_product()
+        product.save_to_json()
+        return redirect(url_for("opinions", product_id=product_id))
+    return render_template("extract.html.jinja")
 
 @app.route("/products")
 def products():
-    products = [product.split('.')[0] for product in listdir("app/products")]
+    products = [product.split(".")[0] for product in listdir("app/products")]
     return render_template("products.html.jinja", products=products)
 
 @app.route("/opinions/<product_id>")
@@ -32,4 +35,4 @@ def charts():
 
 @app.route("/about")
 def about():
-    pass
+    return render_template("about.html.jinja")

@@ -19,10 +19,10 @@
                         <a class="nav-link active" aria-current="page" href="{{ url_for('index') }}">Strona główna</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ url_for('extract', product_id=65035723) }}">Ekstrakcja opinii</a>
+                        <a class="nav-link active" aria-current="page" href="{{ url_for('extract') }}">Ekstrakcja opinii</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ url_for('products') }}">Lista opinii</a>
+                        <a class="nav-link active" aria-current="page" href="{{ url_for('products') }}">Lista produktów</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{{ url_for('about') }}">O autorze</a>
@@ -49,3 +49,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 </body>
 </html>
+
+{% block scripts %}
+    <script>
+    $(document).ready( function () {
+        $("#opinions").DataTable();
+    } );
+    </script>
+{% endblock scripts %}
